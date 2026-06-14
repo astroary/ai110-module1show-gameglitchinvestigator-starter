@@ -99,28 +99,3 @@ $ pycodestyle app.py logic_utils.py tests/test_game_logic.py
 - While adding the new features I kept all comment and code lines within the
   79-character limit so `app.py` and `logic_utils.py` stayed clean from the
   start.
-
----
-
-## Model Comparison (SF11)
-
-> Compare two AI models on the same task.
-
-*Not attempted.* This challenge requires giving the same bug to two different
-models (e.g., Claude vs. Gemini) and comparing their answers, which needs a
-second model I did not run in this session.
-
-**Task given to both models:**
-
-<!-- Describe what you asked each model to do -->
-
-| | Model A | Model B |
-|-|---------|---------|
-| **Model name** | | |
-| **Response summary** | | |
-| **More Pythonic?** | | |
-| **Clearer explanation?** | | |
-
-**Which did you prefer and why?**
-
-<!-- Your conclusion -->

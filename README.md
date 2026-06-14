@@ -118,6 +118,3 @@ tests/test_game_logic.py::test_high_score_keeps_the_best PASSED          [100%]
   how close the guess is, scaled to the difficulty range) and a "📋 Session
   Summary" table in `app.py` that lists every attempt, guess, and result. The
   high score appears in the sidebar via `st.metric`.
-
-- [ ] **Challenge 5 — AI Model Comparison:** Not attempted (requires running a
-  second model to compare). The `ai_interactions.md` template is ready for it.
