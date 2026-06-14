@@ -32,6 +32,9 @@ coverage.xml
 # Logs
 *.log
 
+# Game runtime artifacts
+high_score.txt
+
 # OS generated files
 .DS_Store
 Thumbs.db

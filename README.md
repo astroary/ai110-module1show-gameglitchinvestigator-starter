@@ -73,19 +73,51 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 ```
 $ pytest tests/ -v
 ============================= test session starts ==============================
-collected 7 items
+collected 16 items
 
-tests/test_game_logic.py::test_winning_guess PASSED                      [ 14%]
-tests/test_game_logic.py::test_guess_too_high PASSED                     [ 28%]
-tests/test_game_logic.py::test_guess_too_low PASSED                      [ 42%]
-tests/test_game_logic.py::test_out_of_range_guess_is_rejected PASSED     [ 57%]
-tests/test_game_logic.py::test_in_range_guess_is_accepted PASSED         [ 71%]
-tests/test_game_logic.py::test_wrong_guess_always_loses_five_points PASSED [ 85%]
-tests/test_game_logic.py::test_win_scores_more_for_fewer_attempts PASSED [100%]
+tests/test_game_logic.py::test_winning_guess PASSED                      [  6%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [ 12%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 18%]
+tests/test_game_logic.py::test_out_of_range_guess_is_rejected PASSED     [ 25%]
+tests/test_game_logic.py::test_in_range_guess_is_accepted PASSED         [ 31%]
+tests/test_game_logic.py::test_wrong_guess_always_loses_five_points PASSED [ 37%]
+tests/test_game_logic.py::test_win_scores_more_for_fewer_attempts PASSED [ 43%]
+tests/test_game_logic.py::test_decimal_guess_is_truncated_to_int PASSED  [ 50%]
+tests/test_game_logic.py::test_extremely_large_guess_is_rejected PASSED  [ 56%]
+tests/test_game_logic.py::test_non_numeric_guess_is_rejected PASSED      [ 62%]
+tests/test_game_logic.py::test_empty_guess_is_rejected PASSED            [ 68%]
+tests/test_game_logic.py::test_proximity_exact_match_is_bullseye PASSED  [ 75%]
+tests/test_game_logic.py::test_proximity_close_guess_is_hot PASSED       [ 81%]
+tests/test_game_logic.py::test_proximity_far_guess_is_cold PASSED        [ 87%]
+tests/test_game_logic.py::test_high_score_saves_and_loads PASSED         [ 93%]
+tests/test_game_logic.py::test_high_score_keeps_the_best PASSED          [100%]
 
-============================== 7 passed in 0.04s ===============================
+============================== 16 passed in 0.04s ===============================
 ```
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+- [x] **Challenge 1 — Advanced Edge-Case Testing:** Added pytest cases for
+  decimals, extremely large numbers, non-numeric text, and empty input. The full
+  passing output (16 tests) is in the Test Results section above; prompts and
+  reasoning are logged in `ai_interactions.md`.
+
+- [x] **Challenge 2 — Feature Expansion (High Score):** The best score now
+  persists to a `high_score.txt` file and shows in the sidebar as a metric, so it
+  survives across games and restarts. Added `load_high_score()` and
+  `save_high_score()` in `logic_utils.py`; the win handler in `app.py` calls
+  `save_high_score()` and announces a new record.
+
+- [x] **Challenge 3 — Professional Documentation and Linting:** Every function in
+  `logic_utils.py` now has a Google-style docstring, and `pycodestyle` reports no
+  PEP 8 issues across `app.py`, `logic_utils.py`, and the tests. Before/after
+  linting output is in `ai_interactions.md`.
+
+- [x] **Challenge 4 — Enhanced Game UI:** Added a hot/cold proximity cue under
+  each hint (`get_proximity()` in `logic_utils.py` returns 🎯/🔥/🙂/🧊 based on
+  how close the guess is, scaled to the difficulty range) and a "📋 Session
+  Summary" table in `app.py` that lists every attempt, guess, and result. The
+  high score appears in the sidebar via `st.metric`.
+
+- [ ] **Challenge 5 — AI Model Comparison:** Not attempted (requires running a
+  second model to compare). The `ai_interactions.md` template is ready for it.

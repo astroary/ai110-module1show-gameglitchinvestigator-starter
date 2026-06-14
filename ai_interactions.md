@@ -10,15 +10,28 @@
 
 **What task did you give the agent?**
 
-<!-- Describe the goal you asked the agent to accomplish -->
+I asked the agent to add a persistent "High Score" feature: save the best
+score to a file so it survives across games and new browser sessions, and show
+it in the sidebar. I also asked it to enhance the UI with a hot/cold proximity
+hint and a session summary table.
 
 **What did the agent do?**
 
-<!-- List the steps the agent took (files edited, commands run, etc.) -->
+- Added `load_high_score()` and `save_high_score()` to `logic_utils.py`
+  (they read/write a `high_score.txt` file and keep only the larger score).
+- Added `get_proximity()` to `logic_utils.py` for the hot/cold hint.
+- Updated `app.py` to show the high score in the sidebar with `st.metric`,
+  save the high score on a win, show the proximity caption after each guess,
+  and render a "Session Summary" table from a new `rounds` session-state list.
+- Added `high_score.txt` to `.gitignore` so the runtime file is not committed.
+- Wrote pytest cases for all of the above.
 
 **What did you have to verify or fix manually?**
 
-<!-- Describe anything the agent got wrong or that required human review -->
+- I made the high-score functions take a `path` argument so the tests could
+  use a temporary file (`tmp_path`) instead of writing the real one.
+- I checked that the "New high score" message only appears when the new score
+  actually ties or beats the stored best.
 
 ---
 
@@ -26,11 +39,19 @@
 
 > Document how you used AI to help generate or improve tests.
 
+**Prompt used:** "Look at parse_guess and get_proximity in logic_utils.py.
+Suggest three edge-case inputs that might still break the game and write pytest
+cases that verify each one is handled gracefully."
+
 | Edge Case | Prompt Used | AI-Suggested Test | Did It Pass? | Your Reasoning |
 |-----------|-------------|-------------------|--------------|----------------|
-| | | | | |
-| | | | | |
-| | | | | |
+| Decimal input like `3.7` | (prompt above) | `test_decimal_guess_is_truncated_to_int` | Yes | Decimals shouldn't crash; they truncate to an int. |
+| Extremely large number `999999999999` | (prompt above) | `test_extremely_large_guess_is_rejected` | Yes | Huge values are out of range and must be rejected cleanly. |
+| Non-numeric text `abc` | (prompt above) | `test_non_numeric_guess_is_rejected` | Yes | Letters should give a friendly error, not an exception. |
+
+Empty input was also added (`test_empty_guess_is_rejected`) for completeness.
+
+Terminal output (all tests passing) is pasted in `README.md`.
 
 ---
 
@@ -41,24 +62,53 @@
 **Prompt used:**
 
 ```
-<!-- Paste the prompt you gave the AI -->
+Add professional docstrings to every function in logic_utils.py, then run
+pycodestyle on app.py, logic_utils.py, and the tests and fix any PEP 8 issues.
 ```
 
 **Linting output before:**
 
 ```
-<!-- Paste relevant linter warnings/errors -->
+$ pycodestyle app.py logic_utils.py tests/test_game_logic.py
+tests/test_game_logic.py:10:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:15:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:20:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:35:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:42:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:48:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:65:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:72:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:79:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:92:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:96:1: E302 expected 2 blank lines, found 1
+tests/test_game_logic.py:109:1: E302 expected 2 blank lines, found 1
+```
+
+**Linting output after:**
+
+```
+$ pycodestyle app.py logic_utils.py tests/test_game_logic.py
+(no output - all files pass)
 ```
 
 **Changes applied:**
 
-<!-- Describe what you changed based on the AI's suggestions -->
+- Added Google-style docstrings (Args/Returns) to every function in
+  `logic_utils.py`, plus a module-level docstring.
+- Added a second blank line between the test functions to satisfy `E302`.
+- While adding the new features I kept all comment and code lines within the
+  79-character limit so `app.py` and `logic_utils.py` stayed clean from the
+  start.
 
 ---
 
 ## Model Comparison (SF11)
 
 > Compare two AI models on the same task.
+
+*Not attempted.* This challenge requires giving the same bug to two different
+models (e.g., Claude vs. Gemini) and comparing their answers, which needs a
+second model I did not run in this session.
 
 **Task given to both models:**
 
