@@ -5,8 +5,24 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
+
+  The first time I ran it, the game looked normal. It was a number guessing game
+  with a difficulty selector in the sidebar, a box to type my guess, and a
+  "Developer Debug Info" panel that showed the secret number. The problems only
+  showed up once I started playing: the hints pointed me the wrong way, and the
+  game would not let me start over properly.
+
+- List at least two concrete bugs you noticed at the start
   (for example: "the hints were backwards").
+
+  The first two bugs I noticed while playing on my own were:
+  1. **The higher/lower hints were backwards.** When my guess was too low, it
+     told me to "Go LOWER," and when it was too high it told me to "Go HIGHER,"
+     so following the hints actually moved me away from the answer.
+  2. **Starting a new game was broken.** After I clicked "New Game" and typed a
+     guess, clicking "Submit Guess" did nothing — the game would not accept my
+     guess. While digging into these, I found more issues, listed in the table
+     below.
 
 **Bug Reproduction Log**
 
@@ -20,6 +36,28 @@ Document at least 3 bugs you found. Add rows as needed.
 | I typed a guess and clicked Submit Guess once | The guess should submit on the first click | I had to click Submit Guess twice before it would submit | none |
 | I made several wrong guesses, then won | The score should make sense (lose points for wrong guesses, gain points for winning) | The score jumped around (a "Too High" guess sometimes added points) and a slow win ended at 0 | none |
 | I checked the Developer Debug Info while playing | It should show my current score, attempts, and history | It showed numbers that were one guess behind (stale) | none |
+
+**Code-level cause of each bug**
+
+After investigating, here is the part of the code responsible for each bug:
+
+1. **Backwards hint (rows 1–2):** in `check_guess`, the "Too High" outcome
+   returned the message "Go HIGHER!" and "Too Low" returned "Go LOWER!" — the
+   messages were swapped. `app.py` also turned the secret into a string on every
+   even attempt, which broke the comparison and flipped the hint.
+2. **Out-of-range guess (row 1):** `parse_guess` only checked that the input was
+   a number, never that it was inside the 1–100 range, so -5 was accepted.
+3. **New Game freeze (row 3):** the `if new_game:` block in `app.py` reset
+   `attempts` and `secret` but forgot to reset `status`, `score`, and `history`,
+   so a finished game stayed "won"/"lost" and `st.stop()` swallowed the next guess.
+4. **Click Submit twice (row 4):** the guess box and Submit button were separate
+   widgets, so clicking Submit first only made the text box lose focus (a
+   Streamlit button quirk); it needed to be wrapped in a form.
+5. **Haywire score (row 5):** `update_score` added +5 for a "Too High" guess on
+   even attempts and shrank the win bonus with `100 - 10 * (attempt + 1)`, so a
+   slow win ended near 0.
+6. **Stale debug panel (row 6):** the debug expander was drawn near the top of
+   `app.py`, before the guess handler ran, so it always showed last turn's values.
 
 ---
 
