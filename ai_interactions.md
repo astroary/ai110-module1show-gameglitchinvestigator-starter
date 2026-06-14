@@ -99,3 +99,30 @@ $ pycodestyle app.py logic_utils.py tests/test_game_logic.py
 - While adding the new features I kept all comment and code lines within the
   79-character limit so `app.py` and `logic_utils.py` stayed clean from the
   start.
+
+---
+
+## Model Comparison (SF11)
+
+> Compare two AI models on the same task.
+
+**Task given to both models:** I gave each model the buggy starter code and asked
+what was wrong and how to fix it. I focused on the backwards higher/lower hint as
+the specific logic bug.
+
+| | Model A: Google Gemini | Model B: Claude (Opus 4.8, in VS Code) |
+|-|------------------------|----------------------------------------|
+| **Model name** | Google Gemini | Claude Opus 4.8 |
+| **Response summary** | Gave general debugging advice: "test the inputs and see the expected outputs" and "test the button functionalities to make sure they work correctly." It did not name a specific bug or give a code fix. | Pinpointed specific bugs — the swapped messages in `check_guess`, the secret being turned into a string on even attempts, the missing range check in `parse_guess`, and the New Game button not resetting state — and gave concrete corrected code. |
+| **More Pythonic fix?** | No actual code was provided, so there was nothing to judge. | Yes — it provided the corrected functions directly. |
+| **Clearer explanation?** | Clear and simple, but generic; it never explained the *cause* of the bug. | Clearer for this task — it explained the exact line-level cause of each bug. |
+
+**Which did you prefer and why?**
+
+For this task I preferred Claude, because it found the exact buggy lines and gave
+working fixes that I could verify with pytest, while Gemini only gave high-level
+advice. That said, Gemini's instinct to "write tests for the inputs and buttons"
+was genuinely good practice — it is basically the testing-first habit that later
+helped me catch the edge cases. So Claude was the better debugger here, but
+Gemini's advice was a reminder to verify everything with tests rather than trust
+a fix on sight.

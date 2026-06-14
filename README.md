@@ -118,3 +118,8 @@ tests/test_game_logic.py::test_high_score_keeps_the_best PASSED          [100%]
   how close the guess is, scaled to the difficulty range) and a "📋 Session
   Summary" table in `app.py` that lists every attempt, guess, and result. The
   high score appears in the sidebar via `st.metric`.
+
+- [x] **Challenge 5 — AI Model Comparison:** Asked both Google Gemini and Claude
+  about the same buggy starter code. Gemini gave generic "test your inputs and
+  buttons" advice while Claude pinpointed the exact buggy lines and gave concrete
+  fixes. Full comparison (Pythonic-ness and clarity) is in `ai_interactions.md`.
