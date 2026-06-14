@@ -78,13 +78,41 @@ Document at least 3 bugs you found. Add rows as needed.
 
 ## 4. What did you learn about Streamlit and state?
 
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+- How would you explain Streamlit "reruns" and session state to a friend who has
+  never used Streamlit?
+
+  Streamlit runs your whole script from top to bottom every time you click a
+  button or type something. So normal variables get created fresh each time and
+  forget their old values. To remember things between clicks (like the secret
+  number, the score, and how many attempts you have left), you have to store them
+  in `st.session_state`, which sticks around across reruns. This also explained
+  two of my bugs: the debug panel showed old numbers because it was drawn before
+  the new guess was processed, and I had to click Submit twice because a button
+  is only "true" for the one rerun right after you click it.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+- What is one habit or strategy from this project that you want to reuse in future
+  labs or projects?
+
+  I want to keep writing pytest tests right after I fix something. Seeing a test
+  fail and then pass gave me real proof that the bug was actually gone, instead of
+  just hoping it was. I also liked keeping the logic in its own file so it was easy
+  to test.
+
+- What is one thing you would do differently next time you work with AI on a
+  coding task?
+
+  Next time I would ask the AI to explain the cause of a bug before I let it
+  change anything, and I would read the whole function instead of just the one
+  line. The backwards-hint bug had a second hidden cause, and I would have missed
+  it if I had trusted the first quick answer.
+
+- In one or two sentences, describe how this project changed the way you think
+  about AI generated code.
+
+  I learned that AI-generated code can look finished and still be full of quiet
+  bugs. I now treat the AI as a helpful teammate whose work I always have to read,
+  test, and verify myself before trusting it.
